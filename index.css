@@ -1,0 +1,13 @@
+
+.cf-turnstile {
+    display: block;
+    margin-left: auto; 
+    margin-right: 0;
+    
+}
+
+.cf-turnstile iframe {
+    display: block;
+    margin-left: auto;
+    margin-right: 0;
+}
