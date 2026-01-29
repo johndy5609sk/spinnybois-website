@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SpinnyWFC Error Codes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: #0a0d1a;
+      color: #e8f0ff;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #7fc8ff;
+      text-shadow: 0 0 6px #3ea6ff;
+    }
+
+    .subtitle {
+      text-align: center;
+      margin-bottom: 16px;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .search-box {
+      max-width: 800px;
+      margin: 0 auto 20px auto;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #3ea6ff;
+      background: rgba(10, 15, 35, 0.85);
+      color: #e8f0ff;
+      font-size: 1rem;
+      box-shadow: 0 0 10px rgba(62, 166, 255, 0.3);
+    }
+
+    .error-list {
+      max-width: 800px;
+      margin: 0 auto;
+      background: rgba(10, 15, 35, 0.85);
+      border: 1px solid #3ea6ff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 12px rgba(62, 166, 255, 0.4);
+    }
+
+    .error {
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(126, 180, 255, 0.2);
+    }
+
+    .error:last-child {
+      border-bottom: none;
+    }
+
+    .code {
+      font-family: "SF Mono", Menlo, Consolas, monospace;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #7fc8ff;
+      margin-bottom: 4px;
+    }
+
+    .desc {
+      font-size: 0.95rem;
+      opacity: 0.9;
+      line-height: 1.4;
+    }
+
+    .hint {
+      font-size: 0.85rem;
+      opacity: 0.7;
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>SpinnyWFC Error Codes</h1>
+<div class="subtitle">
+  Real Nintendo WFC and server-side errors, reordered by chaos, explained by SpinnyWFC. Use the search box. Breathe.
+</div>
+
+<div class="search-box">
+  <input type="text" id="searchInput" placeholder="Search by code, keyword, or ‘why is this broken’…">
+</div>
+
+<div class="error-list" id="errorList">
+
+  <!-- 20100 SERIES -->
+  <div class="error">
+    <div class="code">20100 – Unable to Connect to Server</div>
+    <div class="desc">The server didn’t respond. It might be asleep, gone, or just dramatically ignoring you.</div>
+    <div class="hint">Check: DNS, server URL, or whether the service actually exists.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">20110 – Service Discontinued</div>
+    <div class="desc">You’re asking Nintendo’s old WFC servers to wake up. They retired years ago.</div>
+    <div class="hint">Use an alternative service like SpinnyWFC instead of the original WFC endpoint.</div>
+  </div>
+
+  <!-- 31000 SERIES -->
+  <div class="error">
+    <div class="code">31020 – Matchmaking Failed</div>
+    <div class="desc">No one joined your room. Even the imaginary players didn’t show up.</div>
+    <div class="hint">Try again, check NAT type, or convince a friend to actually connect.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">31080 – Friend Code Error</div>
+    <div class="desc">The friend code system did what it does best: fail in mysterious ways.</div>
+    <div class="hint">Double‑check the code, region, and whether both sides added each other.</div>
+  </div>
+
+  <!-- 50000 SAKE / LEADERBOARDS -->
+  <div class="error">
+    <div class="code">50000 – SAKE General Failure</div>
+    <div class="desc">The stats/leaderboard server saw your request and immediately regretted its life choices.</div>
+    <div class="hint">Generic SAKE error. Check request format, auth, and server status.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">50020 – SAKE Authentication Failed</div>
+    <div class="desc">Your leaderboard login wasn’t accepted. The server said “who dis?”</div>
+    <div class="hint">Verify profile, auth token, and that the game is using the right account.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">50030 – SAKE Record Not Found</div>
+    <div class="desc">You tried to fetch a record that doesn’t exist. It never lived here.</div>
+    <div class="hint">Check IDs, filters, or whether the data was ever uploaded.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">50040 – SAKE Permission Denied</div>
+    <div class="desc">You asked to touch data you’re not allowed to touch. The server said “nope.”</div>
+    <div class="hint">Check ownership, permissions, and access level.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">50050 – SAKE Upload Failed</div>
+    <div class="desc">Your stats or level tried to upload and tripped on the way to the server.</div>
+    <div class="hint">Check connection stability and payload size/format.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">50060 – SAKE Download Failed</div>
+    <div class="desc">The server tried to send data and then changed its mind mid‑flight.</div>
+    <div class="hint">Check filters, IDs, and whether the content still exists.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">50099 – SAKE Meltdown</div>
+    <div class="desc">The leaderboard system encountered something so cursed it gave up entirely.</div>
+    <div class="hint">Server‑side issue. Check logs, schemas, and recent changes.</div>
+  </div>
+
+  <!-- 52000 SERIES – WIFI / DHCP -->
+  <div class="error">
+    <div class="code">52000 – Unable to Obtain IP Address</div>
+    <div class="desc">Your DS politely asked the router for an IP. The router pretended not to hear.</div>
+    <div class="hint">Check DHCP, Wi‑Fi password, and that the router isn’t sulking.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">52001 – Cannot Connect to Access Point</div>
+    <div class="desc">Your Wi‑Fi saw your DS and said “not today.”</div>
+    <div class="hint">Move closer, re‑enter the key, or check MAC filtering.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">52002 – DHCP Timeout</div>
+    <div class="desc">The router is thinking… and thinking… and then stopped thinking.</div>
+    <div class="hint">Restart router, check DHCP pool, or try manual IP settings.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">52003 – Unable to Connect to Server</div>
+    <div class="desc">Your DS reached out. The server ghosted you.</div>
+    <div class="hint">Check server address, DNS, and whether the service is actually running.</div>
+  </div>
+
+  <!-- 52100 SERIES – DNS / ROUTER -->
+  <div class="error">
+    <div class="code">52100 – DNS Error</div>
+    <div class="desc">Your DNS settings are so wrong the DS got confused and walked away.</div>
+    <div class="hint">Use known‑good DNS (like your router or a public resolver).</div>
+  </div>
+
+  <div class="error">
+    <div class="code">52101 – Cannot Connect to Nintendo WFC</div>
+    <div class="desc">Your network is allergic to online play. It broke out in timeouts.</div>
+    <div class="hint">Check firewall, NAT, and whether you’re tunneling through three VPNs.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">52102 – Router Refused Connection</div>
+    <div class="desc">Your router blocked the DS like it’s guarding state secrets.</div>
+    <div class="hint">Check port blocking, parental controls, and security mode.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">52103 – DNS Response Invalid</div>
+    <div class="desc">Your DNS replied with something so weird the DS questioned reality.</div>
+    <div class="hint">Check custom DNS, hosts overrides, or typos in server names.</div>
+  </div>
+
+  <!-- 60000 SERIES – GPCM -->
+  <div class="error">
+    <div class="code">60000 – GPCM General Failure</div>
+    <div class="desc">The presence/login server saw your request and immediately regretted it.</div>
+    <div class="hint">Check credentials, server URL, and protocol version.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">60010 – GPCM Login Rejected</div>
+    <div class="desc">Your console tried to log in. GPCM said “nope, not you.”</div>
+    <div class="hint">Verify profile, password/token, and account status.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">60020 – GPCM Buddy List Failure</div>
+    <div class="desc">The buddy list system tripped over its own data.</div>
+    <div class="hint">Check friend data, IDs, and server‑side buddy storage.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">60030 – GPCM Keepalive Timeout</div>
+    <div class="desc">The server assumed you vanished into the void.</div>
+    <div class="hint">Connection dropped or idle too long. Check stability and timeouts.</div>
+  </div>
+
+  <!-- 61000 SERIES – NAS / AUTH -->
+  <div class="error">
+    <div class="code">61010 – Cannot Connect to Authentication Server</div>
+    <div class="desc">The login server is busy doing absolutely nothing.</div>
+    <div class="hint">Check NAS URL, DNS, and whether the auth service is running.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">61020 – Profile Mismatch</div>
+    <div class="desc">The server checked your profile and said “who are you again?”</div>
+    <div class="hint">Profile data doesn’t match. Recreate or resync the profile.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">61030 – Invalid Credentials</div>
+    <div class="desc">Your login details were so wrong the server winced.</div>
+    <div class="hint">Check keys, tokens, and any patched credentials.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">61040 – Banned or Blocked</div>
+    <div class="desc">The server remembers you. That’s the problem.</div>
+    <div class="hint">Account or console may be blocked. Check server policy.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">61050 – Region or Title Not Allowed</div>
+    <div class="desc">This game or region isn’t invited to the party.</div>
+    <div class="hint">Check region locks, title IDs, and server configuration.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">61070 – Server Maintenance</div>
+    <div class="desc">The server is on a coffee break and refuses to multitask.</div>
+    <div class="hint">Try again later. Or sooner. Or whenever it feels like working.</div>
+  </div>
+
+  <!-- 70000 SERIES – DLS1 -->
+  <div class="error">
+    <div class="code">70000 – DLS1 General Failure</div>
+    <div class="desc">The download server saw your request and immediately dropped it.</div>
+    <div class="hint">Check URL, content ID, and server status.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">70010 – Content Missing</div>
+    <div class="desc">You tried to download something that doesn’t exist anymore. Or ever.</div>
+    <div class="hint">Verify content IDs and that the file is actually hosted.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">70020 – Hash Mismatch</div>
+    <div class="desc">The file arrived, but the checksum screamed in horror.</div>
+    <div class="hint">Corrupted download or wrong file. Re‑upload or retry.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">70030 – Download Incomplete</div>
+    <div class="desc">The download stopped halfway, like it remembered something urgent.</div>
+    <div class="hint">Check connection stability and timeouts.</div>
+  </div>
+
+  <!-- 84000 SERIES – WII / WFC -->
+  <div class="error">
+    <div class="code">84020 – Connection Failed</div>
+    <div class="desc">Your console tried to handshake. The server left it hanging.</div>
+    <div class="hint">Check ports, NAT, and whether the endpoint is correct.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">84030 – NAT Negotiation Failed</div>
+    <div class="desc">Your network is behind seven firewalls and at least one dragon.</div>
+    <div class="hint">UPnP, port forwarding, or a less cursed router may help.</div>
+  </div>
+
+  <!-- 86000 SERIES – NATNEG / P2P -->
+  <div class="error">
+    <div class="code">86010 – NAT Negotiation Failed</div>
+    <div class="desc">The peers tried to meet in the middle. The middle exploded.</div>
+    <div class="hint">Strict NAT on one or both sides. Check router settings.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">86020 – Peer Unreachable</div>
+    <div class="desc">The other player lives behind a network fortress.</div>
+    <div class="hint">One side may be fully blocked. Try a different network.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">86420 – Peer-to-Peer Connection Failed</div>
+    <div class="desc">The other player’s connection spontaneously combusted. Not your fault. Probably.</div>
+    <div class="hint">Common in Wii/DS P2P. Try again or pick a different host.</div>
+  </div>
+
+  <!-- 98000 SERIES – HTTP / GAMESTATS -->
+  <div class="error">
+    <div class="code">98020 – HTTP Request Failed</div>
+    <div class="desc">Your HTTP request left the console and never came back.</div>
+    <div class="hint">Check URL, SSL (if any), and server availability.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">98030 – Malformed Request</div>
+    <div class="desc">The server looked at your request and said “what is this?”</div>
+    <div class="hint">Headers, body format, or query parameters may be wrong.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">98040 – Invalid Server Response</div>
+    <div class="desc">The server replied with something so cursed the client refused to parse it.</div>
+    <div class="hint">Check response format, encoding, and status codes.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">98050 – Rate Limited</div>
+    <div class="desc">You asked the server for too much, too fast. It’s hiding now.</div>
+    <div class="hint">Slow down requests or add backoff logic.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">98099 – GameStats Meltdown</div>
+    <div class="desc">The stats/HTTP backend encountered something unspeakable and bailed.</div>
+    <div class="hint">Server‑side issue. Check logs and recent deployments.</div>
+  </div>
+
+  <!-- 998000+ SERIES – SPINNYWFC CUSTOM -->
+  <div class="error">
+    <div class="code">998001 – Internal Server Oops</div>
+    <div class="desc">Something broke on our end. We’re pretending it didn’t happen.</div>
+    <div class="hint">Check server logs, exceptions, and anything you “definitely didn’t touch.”</div>
+  </div>
+
+  <div class="error">
+    <div class="code">998002 – Unexpected Response</div>
+    <div class="desc">The server received something so strange it questioned reality.</div>
+    <div class="hint">Client and server may disagree on protocol or payload.</div>
+  </div>
+
+  <div class="error">
+    <div class="code">998003 – Database Unavailable</div>
+    <div class="desc">The database is currently on vacation and did not leave a forwarding address.</div>
+    <div class="hint">Check DB connection, migrations, and whether it’s actually running.</div>
+  </div>
+
+</div>
+
+<script>
+  const searchInput = document.getElementById("searchInput");
+  const errorList = document.getElementById("errorList");
+  const errors = errorList.getElementsByClassName("error");
+
+  searchInput.addEventListener("input", function () {
+    const filter = searchInput.value.toLowerCase();
+
+    for (let i = 0; i < errors.length; i++) {
+      const code = errors[i].getElementsByClassName("code")[0].innerText.toLowerCase();
+      const desc = errors[i].getElementsByClassName("desc")[0].innerText.toLowerCase();
+      const hint = errors[i].getElementsByClassName("hint")[0].innerText.toLowerCase();
+
+      if (code.includes(filter) || desc.includes(filter) || hint.includes(filter)) {
+        errors[i].style.display = "";
+      } else {
+        errors[i].style.display = "none";
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
