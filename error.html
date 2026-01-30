@@ -2,411 +2,1046 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>SpinnyWFC Error Codes</title>
+  <title>SpinnyWFC Error Codex</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
+    :root {
+      --bg: #05060b;
+      --bg-alt: #0b0f1a;
+      --panel: #101626;
+      --accent: #29b6ff;
+      --accent-soft: #29b6ff55;
+      --accent-strong: #4af2ff;
+      --text-main: #e8f0ff;
+      --text-soft: #9aa4c8;
+      --text-hot: #ff6fb3;
+      --border: #1f2940;
+      --danger: #ff4f7b;
+      --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-      background: #0a0d1a;
-      color: #e8f0ff;
-      padding: 20px;
+      font-family: var(--sans);
+      background: radial-gradient(circle at top, #151b33 0, #05060b 55%, #000 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 16px;
     }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #7fc8ff;
-      text-shadow: 0 0 6px #3ea6ff;
-    }
-
-    .subtitle {
-      text-align: center;
-      margin-bottom: 16px;
-      font-size: 0.9rem;
-      opacity: 0.8;
-    }
-
-    .search-box {
-      max-width: 800px;
-      margin: 0 auto 20px auto;
-    }
-
-    .search-box input {
+    .shell {
       width: 100%;
+      max-width: 960px;
+      background: linear-gradient(145deg, #05060b, #0b0f1a);
+      border-radius: 18px;
+      border: 2px solid #1b2236;
+      box-shadow:
+        0 0 0 1px #000,
+        0 0 24px rgba(0,0,0,0.9),
+        0 0 40px rgba(0,0,0,0.8);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .topbar {
+      height: 40px;
+      background: linear-gradient(90deg, #0b1020, #101a33);
+      border-bottom: 1px solid #1f2940;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-strong);
+    }
+    .topbar span {
+      margin-left: auto;
+      font-size: 0.7rem;
+      color: var(--text-soft);
+      text-transform: none;
+    }
+    .content {
       padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #3ea6ff;
-      background: rgba(10, 15, 35, 0.85);
-      color: #e8f0ff;
-      font-size: 1rem;
-      box-shadow: 0 0 10px rgba(62, 166, 255, 0.3);
+      overflow-y: auto;
+      max-height: calc(100vh - 40px - 16px);
     }
-
+    .intro {
+      background: radial-gradient(circle at top left, #1b2644 0, #0b0f1a 55%);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      font-size: 0.85rem;
+    }
+    .intro-title {
+      font-weight: 700;
+      color: var(--accent-strong);
+      margin-bottom: 4px;
+      font-size: 0.9rem;
+    }
+    .search-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .search-input {
+      flex: 1;
+      min-width: 180px;
+      background: #050814;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 6px 10px;
+      color: var(--text-main);
+      font-size: 0.8rem;
+      outline: none;
+      box-shadow: 0 0 0 1px #000;
+    }
+    .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px #000, 0 0 10px var(--accent-soft);
+    }
+    .pill {
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--accent-soft);
+      color: var(--accent-strong);
+      background: #050814;
+      white-space: nowrap;
+    }
+    .error-of-day {
+      margin-top: 6px;
+      font-size: 0.8rem;
+      color: var(--text-soft);
+    }
+    .error-of-day span {
+      color: var(--text-hot);
+      font-family: var(--mono);
+      font-size: 0.78rem;
+    }
+    .category {
+      margin-bottom: 12px;
+      background: var(--bg-alt);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: 0 0 0 1px #000;
+    }
+    .category-header {
+      padding: 8px 10px;
+      border-bottom: 1px solid #1b2236;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+    .category-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--accent-strong);
+    }
+    .category-tag {
+      font-size: 0.7rem;
+      color: var(--text-soft);
+    }
+    .category-body {
+      padding: 8px 10px 10px;
+      font-size: 0.8rem;
+    }
+    .category-desc {
+      color: var(--text-soft);
+      margin-bottom: 6px;
+    }
     .error-list {
-      max-width: 800px;
-      margin: 0 auto;
-      background: rgba(10, 15, 35, 0.85);
-      border: 1px solid #3ea6ff;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 0 12px rgba(62, 166, 255, 0.4);
+      border-radius: 8px;
+      border: 1px solid #1b2236;
+      background: #050814;
+      max-height: 260px;
+      overflow-y: auto;
     }
-
-    .error {
-      padding: 14px 0;
-      border-bottom: 1px solid rgba(126, 180, 255, 0.2);
+    .error-row {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 6px;
+      padding: 4px 8px;
+      border-bottom: 1px solid #101626;
+      align-items: flex-start;
     }
-
-    .error:last-child {
+    .error-row:last-child {
       border-bottom: none;
     }
-
-    .code {
-      font-family: "SF Mono", Menlo, Consolas, monospace;
-      font-size: 1rem;
-      font-weight: 700;
-      color: #7fc8ff;
-      margin-bottom: 4px;
+    .error-code {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--accent);
+      white-space: nowrap;
     }
-
-    .desc {
-      font-size: 0.95rem;
-      opacity: 0.9;
-      line-height: 1.4;
+    .error-text {
+      font-size: 0.78rem;
+      color: var(--text-main);
     }
-
-    .hint {
-      font-size: 0.85rem;
-      opacity: 0.7;
-      margin-top: 2px;
+    .error-text span {
+      display: block;
+      color: var(--text-soft);
+      font-size: 0.75rem;
+      margin-top: 1px;
     }
+    .footer {
+      padding: 6px 10px 8px;
+      border-top: 1px solid #1b2236;
+      font-size: 0.7rem;
+      color: var(--text-soft);
+      text-align: right;
+      background: #05060b;
+    }
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
-
-<h1>SpinnyWFC Error Codes</h1>
-<div class="subtitle">
-  Real Nintendo WFC and server-side errors, reordered by chaos, explained by SpinnyWFC. Use the search box. Breathe.
-</div>
-
-<div class="search-box">
-  <input type="text" id="searchInput" placeholder="Search by code, keyword, or ‘why is this broken’…">
-</div>
-
-<div class="error-list" id="errorList">
-
-  <!-- 20100 SERIES -->
-  <div class="error">
-    <div class="code">20100 – Unable to Connect to Server</div>
-    <div class="desc">The server didn’t respond. It might be asleep, gone, or just dramatically ignoring you.</div>
-    <div class="hint">Check: DNS, server URL, or whether the service actually exists.</div>
+<div class="shell">
+  <div class="topbar">
+    SPINNYWFC ERROR CODEX
+    <span>“Because Nintendo’s errors weren’t dramatic enough.”</span>
   </div>
+  <div class="content">
+    <div class="intro">
+      <div class="intro-title">Welcome to the SpinnyWFC Error Codex</div>
+      <div>
+        Every code below is real, cursed, or both. Nintendo wrote the numbers.  
+        <br>SpinnyWFC wrote the insults.
+      </div>
+      <div class="search-row">
+        <input id="search" class="search-input" placeholder="Search by code or text (e.g. 20110, DNS, NATNEG, SAKE)…">
+        <div class="pill">DSi Dark • Chaos Mode • Always Expanded</div>
+      </div>
+      <div class="error-of-day" id="error-of-day">
+        Error of the day: <span>—</span>
+      </div>
+    </div>
 
-  <div class="error">
-    <div class="code">20110 – Service Discontinued</div>
-    <div class="desc">You’re asking Nintendo’s old WFC servers to wake up. They retired years ago.</div>
-    <div class="hint">Use an alternative service like SpinnyWFC instead of the original WFC endpoint.</div>
+    <!-- 1. BROWSER / OPERA / WEB ERRORS -->
+    <section class="category" data-category="browser">
+      <div class="category-header">
+        <div class="category-title">Browser / Opera / Web Errors</div>
+        <div class="category-tag">220XXX, 24XXXX, 243XXX, 244XXX</div>
+      </div>
+      <div class="category-body">
+        <div class="category-desc">
+          When the Wii browser, Opera, or web stack decides your request is beneath it.
+        </div>
+        <div class="error-list">
+          <div class="error-row" data-code="220000" data-text="Connection failed">
+            <div class="error-code">220000</div>
+            <div class="error-text">
+              Connection failed.
+              <span>“The browser tripped over the first packet and gave up.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="220001" data-text="Unknown protocol">
+            <div class="error-code">220001</div>
+            <div class="error-text">
+              Unknown protocol.
+              <span>“You spoke a language the browser refuses to acknowledge.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="220002" data-text="Out of memory">
+            <div class="error-code">220002</div>
+            <div class="error-text">
+              Out of memory.
+              <span>“The browser tried to think and immediately crashed.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="220003" data-text="Filtered URL">
+            <div class="error-code">220003</div>
+            <div class="error-text">
+              Filtered URL.
+              <span>“Someone decided you’re not allowed to see that. The browser agrees.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="220101" data-text="Allocation error">
+            <div class="error-code">220101</div>
+            <div class="error-text">
+              Allocation error.
+              <span>“The browser tried to allocate memory and got laughed at by the OS.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="220105" data-text="Javascript error">
+            <div class="error-code">220105</div>
+            <div class="error-text">
+              JavaScript error.
+              <span>“The script tripped over itself and faceplanted into the DOM.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="220201" data-text="Not found">
+            <div class="error-code">220201</div>
+            <div class="error-text">
+              Not found.
+              <span>“The server swears this page never existed. You imagined it.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="240003" data-text="Invalid URL">
+            <div class="error-code">240003</div>
+            <div class="error-text">
+              Invalid URL.
+              <span>“You gave the browser a riddle instead of an address.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="240007" data-text="Access denied">
+            <div class="error-code">240007</div>
+            <div class="error-text">
+              Access denied.
+              <span>“The server saw you coming and locked the door.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="241000" data-text="Not enough RAM">
+            <div class="error-code">241000</div>
+            <div class="error-text">
+              Not enough RAM.
+              <span>“Your Wii tried to load that page and had a panic attack.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="243XXX" data-text="HTTP response XXX in web browser">
+            <div class="error-code">243XXX</div>
+            <div class="error-text">
+              HTTP response XXX.
+              <span>“The browser got an HTTP code it didn’t emotionally prepare for.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="244002" data-text="SSL handshake failed">
+            <div class="error-code">244002</div>
+            <div class="error-text">
+              SSL handshake failed.
+              <span>“The browser extended a hand. The server walked away.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="244003" data-text="Invalid Root CA">
+            <div class="error-code">244003</div>
+            <div class="error-text">
+              Invalid Root CA.
+              <span>“The certificate chain looked shady. The Wii noped out.”</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. CHANNEL ERRORS (NEWS / FORECAST / YOUTUBE / ETC.) -->
+    <section class="category" data-category="channels">
+      <div class="category-header">
+        <div class="category-title">Channel / Service Errors</div>
+        <div class="category-tag">NEWS/FORE, 252XXX, 262XXX, 27XXXX, 37XXXX</div>
+      </div>
+      <div class="category-body">
+        <div class="category-desc">
+          When channels like News, Forecast, Nintendo Channel, or YouTube decide they’re retired.
+        </div>
+        <div class="error-list">
+          <div class="error-row" data-code="NEWS/FORE000001" data-text="Error processing pre-loaded data">
+            <div class="error-code">FORE000001</div>
+            <div class="error-text">
+              Error processing pre-loaded data.
+              <span>“The channel opened its cache and immediately regretted it.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="NEWS/FORE000006" data-text="Invalid data on news / forecast channel">
+            <div class="error-code">FORE000006</div>
+            <div class="error-text">
+              Invalid data.
+              <span>“The weather data was so wrong the channel refused to show it.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="252102" data-text="Check Mii Out Channel discontinued">
+            <div class="error-code">252102</div>
+            <div class="error-text">
+              Check Mii Out discontinued.
+              <span>“This channel moved to a farm upstate.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="262102" data-text="Nintendo Channel discontinued">
+            <div class="error-code">262102</div>
+            <div class="error-text">
+              Nintendo Channel discontinued.
+              <span>“The channel retired and is now living its best offline life.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="271900" data-text="TV Friend Channel error">
+            <div class="error-code">271900</div>
+            <div class="error-text">
+              TV Friend Channel error.
+              <span>“Even the TV guide gave up on your schedule.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="371410" data-text="Unable to connect to YouTube">
+            <div class="error-code">371410</div>
+            <div class="error-text">
+              Unable to connect to YouTube.
+              <span>“YouTube saw your Wii and said ‘absolutely not.’”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="372XXX" data-text="YouTube HTTP response XXX">
+            <div class="error-code">372XXX</div>
+            <div class="error-text">
+              YouTube HTTP error.
+              <span>“YouTube responded, but not in a way anyone wanted.”</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. CONNECTION ERRORS (5XXXX) -->
+    <section class="category" data-category="connection">
+      <div class="category-header">
+        <div class="category-title">Connection Errors</div>
+        <div class="category-tag">5XXXX</div>
+      </div>
+      <div class="category-body">
+        <div class="category-desc">
+          When your Wii/DS, router, ISP, and reality all disagree on what “online” means.
+        </div>
+        <div class="error-list">
+          <div class="error-row" data-code="500XX" data-text="AP not found">
+            <div class="error-code">500XX</div>
+            <div class="error-text">
+              AP not found.
+              <span>“Your console is screaming into the void. No access point answers.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="501XX" data-text="No Internet connection">
+            <div class="error-code">501XX</div>
+            <div class="error-text">
+              No Internet connection.
+              <span>“Your network stack is vibes-only. No actual Internet detected.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="502XX" data-text="No Internet settings">
+            <div class="error-code">502XX</div>
+            <div class="error-text">
+              No Internet settings.
+              <span>“Your console has never heard of DNS, IP, or responsibility.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="51103" data-text="USB WiFi Connector not found">
+            <div class="error-code">51103</div>
+            <div class="error-text">
+              USB WiFi Connector not found.
+              <span>“You’re asking a ghost adapter to connect. It refuses.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="520XX" data-text="DHCP failed">
+            <div class="error-code">520XX</div>
+            <div class="error-text">
+              DHCP failed.
+              <span>“Your router refused to hand out an IP. Power trip.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="521XX" data-text="DNS failed">
+            <div class="error-code">521XX</div>
+            <div class="error-text">
+              DNS failed.
+              <span>“Your console asked where to go. DNS shrugged.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="522XX" data-text="conntest failed">
+            <div class="error-code">522XX</div>
+            <div class="error-text">
+              Connection test failed.
+              <span>“The test site didn’t respond. Your Wii took that personally.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="527XX" data-text="IP address conflict">
+            <div class="error-code">527XX</div>
+            <div class="error-text">
+              IP address conflict.
+              <span>“Two devices are fighting over the same IP. Only one will survive.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="540XX" data-text="LAN extremely poor">
+            <div class="error-code">540XX</div>
+            <div class="error-text">
+              LAN adapter / connection poor.
+              <span>“Your connection quality is legally classified as ‘sad.’”</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. DLS1 ERRORS (31XXX) -->
+    <section class="category" data-category="dls1">
+      <div class="category-header">
+        <div class="category-title">DLS1 Download Service Errors</div>
+        <div class="category-tag">31XXX</div>
+      </div>
+      <div class="category-body">
+        <div class="category-desc">
+          When the download service tries to help and instead falls down the stairs.
+        </div>
+        <div class="error-list">
+          <div class="error-row" data-code="31001" data-text="Memory allocation failed">
+            <div class="error-code">31001</div>
+            <div class="error-text">
+              Memory allocation failed.
+              <span>“The download service asked for RAM and got laughed at.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="31020" data-text="HTTP connection failed">
+            <div class="error-code">31020</div>
+            <div class="error-text">
+              HTTP connection failed.
+              <span>“The DLS1 server saw your request and unplugged the cable.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="31103" data-text="Invalid key or hash">
+            <div class="error-code">31103</div>
+            <div class="error-text">
+              Invalid key/hash.
+              <span>“Your download credentials looked forged. Service denied.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="31105" data-text="Content does not exist">
+            <div class="error-code">31105</div>
+            <div class="error-text">
+              Content does not exist.
+              <span>“You requested a file that lives only in legend.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="31110" data-text="Password invalid">
+            <div class="error-code">31110</div>
+            <div class="error-text">
+              Password invalid.
+              <span>“The server judged your password and found it unworthy.”</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. EVERYBODY VOTES (23XXXX) -->
+    <section class="category" data-category="votes">
+      <div class="category-header">
+        <div class="category-title">Everybody Votes Channel Errors</div>
+        <div class="category-tag">23XXXX, 238XXX, 239XXX</div>
+      </div>
+      <div class="category-body">
+        <div class="category-desc">
+          When democracy fails at the packet level.
+        </div>
+        <div class="error-list">
+          <div class="error-row" data-code="230001" data-text="Server failure or heavy load">
+            <div class="error-code">230001</div>
+            <div class="error-text">
+              Server failure / heavy load.
+              <span>“Too many people tried to vote. The server rage-quit.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="230500" data-text="Disable IPS firewall">
+            <div class="error-code">230500</div>
+            <div class="error-text">
+              Disable IPS firewall.
+              <span>“Your firewall is blocking democracy. Impressive, but unhelpful.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="2306XX" data-text="Votes data could not be sent">
+            <div class="error-code">2306XX</div>
+            <div class="error-text">
+              Data could not be sent.
+              <span>“Your vote got lost in transit. Politicians would be proud.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="238XXX" data-text="HTTP response XXX">
+            <div class="error-code">238XXX</div>
+            <div class="error-text">
+              HTTP error.
+              <span>“The voting server responded with pure disappointment.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="239001" data-text="Votes data invalid">
+            <div class="error-code">239001</div>
+            <div class="error-text">
+              Data invalid.
+              <span>“The server looked at the vote data and said ‘absolutely not.’”</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. GAME-SPECIFIC ERRORS (102XX, 103XX, 106XX, 116XX, 13275, etc.) -->
+    <section class="category" data-category="gamespecific">
+      <div class="category-header">
+        <div class="category-title">Game-Specific Errors</div>
+        <div class="category-tag">102XX, 103XX, 106XX, 116XX, 13275…</div>
+      </div>
+      <div class="category-body">
+        <div class="category-desc">
+          When individual games decide to add their own special flavor of pain.
+        </div>
+        <div class="error-list">
+          <div class="error-row" data-code="10202" data-text="SSBB gamestats HTTP server not responding">
+            <div class="error-code">10202</div>
+            <div class="error-text">
+              SSBB gamestats HTTP not responding.
+              <span>“Brawl tried to watch a match. The stats server went on strike.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="10312" data-text="MKWii RACE timeout">
+            <div class="error-code">10312</div>
+            <div class="error-text">
+              RACE timeout.
+              <span>“The race server got bored waiting for you.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="10369" data-text="Invalid ghost data from SAKE">
+            <div class="error-code">10369</div>
+            <div class="error-text">
+              Invalid ghost data.
+              <span>“Your ghost file is so cursed even SAKE rejected it.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="10605" data-text="No DNS record for pkgdsprod">
+            <div class="error-code">10605</div>
+            <div class="error-text">
+              No DNS record.
+              <span>“The Pokémon server address fell off the edge of the Internet.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="11601" data-text="MHTri can't get IP / servers down">
+            <div class="error-code">11601</div>
+            <div class="error-text">
+              Cannot get IP / servers down.
+              <span>“Monster Hunter tried to connect and found a smoking crater instead.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="11669" data-text="Same as 86420">
+            <div class="error-code">11669</div>
+            <div class="error-text">
+              NAT / port issue.
+              <span>“Your ports are locked tighter than a treasure chest.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="13275" data-text="Pokemon GTS error">
+            <div class="error-code">13275</div>
+            <div class="error-text">
+              Pokémon GTS error.
+              <span>“The GTS saw your trade and quietly deleted it from history.”</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. GAMESPY / GPCM / NATNEG / SAKE / GAMESTATS (6XXXX, 7XXXX, 8XXXX, 9XXXX, XX0XX, XX8XX) -->
+    <section class="category" data-category="gamespy">
+      <div class="category-header">
+        <div class="category-title">GameSpy / GPCM / NATNEG / SAKE / Gamestats</div>
+        <div class="category-tag">6XXXX, 7XXXX, 8XXXX, 9XXXX, XX0XX, XX8XX</div>
+      </div>
+      <div class="category-body">
+        <div class="category-desc">
+          When the backend stack (GPCM, NATNEG, SAKE, Gamestats) collapses under its own complexity.
+        </div>
+        <div class="error-list">
+          <div class="error-row" data-code="60000" data-text="Profile unknown">
+            <div class="error-code">60000</div>
+            <div class="error-text">
+              Profile unknown.
+              <span>“The server has never heard of you in its life.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="61020" data-text="Gamespy maintenance">
+            <div class="error-code">61020</div>
+            <div class="error-text">
+              GameSpy maintenance.
+              <span>“The GP server is allegedly under maintenance. Translation: it exploded.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="71010" data-text="Friend roster sync timeout">
+            <div class="error-code">71010</div>
+            <div class="error-text">
+              Friend roster sync timeout.
+              <span>“Your friend list took too long to load and got abandoned.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="80430" data-text="Host has not entered FC">
+            <div class="error-code">80430</div>
+            <div class="error-text">
+              Host has not entered FC.
+              <span>“You tried to join someone who doesn’t even know you exist.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="84020" data-text="Master server down">
+            <div class="error-code">84020</div>
+            <div class="error-text">
+              Master server down.
+              <span>“The master server ascended to a higher plane of existence.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="86020" data-text="NATNEG server down">
+            <div class="error-code">86020</div>
+            <div class="error-text">
+              NATNEG server down.
+              <span>“The NAT negotiation server rage-quit mid-handshake.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="86420" data-text="General NATNEG error">
+            <div class="error-code">86420</div>
+            <div class="error-text">
+              General NATNEG error.
+              <span>“Everyone’s routers refused to cooperate. Classic.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="90040" data-text="Gamestats data invalid">
+            <div class="error-code">90040</div>
+            <div class="error-text">
+              Gamestats data invalid.
+              <span>“Your stats were so cursed the server rejected them on sight.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="92050" data-text="HTTP-gamestats error">
+            <div class="error-code">92050</div>
+            <div class="error-text">
+              HTTP gamestats error.
+              <span>“The stats server responded with pure chaos instead of data.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="98860" data-text="SAKE timeout">
+            <div class="error-code">98860</div>
+            <div class="error-text">
+              SAKE timeout.
+              <span>“SAKE went out for a smoke break and never came back.”</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. NAND / SD CARD / STORAGE (29XXXX, 2096XX, 2098XX, etc.) -->
+    <section class="category" data-category="storage">
+      <div class="category-header">
+        <div class="category-title">NAND / SD Card / Storage Errors</div>
+        <div class="category-tag">29XXXX, 2096XX, 2098XX</div>
+      </div>
+      <div class="category-body">
+        <div class="category-desc">
+          When your Wii’s storage decides it has suffered enough.
+        </div>
+        <div class="error-list">
+          <div class="error-row" data-code="29000" data-text="Cannot save WiFi ID to NAND full">
+            <div class="error-code">29000</div>
+            <div class="error-text">
+              NAND full.
+              <span>“Your Wii’s memory is stuffed. It refuses to remember anything else.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="29001" data-text="Cannot save WiFi ID NAND damaged">
+            <div class="error-code">29001</div>
+            <div class="error-text">
+              NAND damaged.
+              <span>“The internal memory is held together with duct tape and regret.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="209643" data-text="SDCARD_ERROR_CORRUPT">
+            <div class="error-code">209643</div>
+            <div class="error-text">
+              SD card corrupt.
+              <span>“Your SD card has entered the ‘clicking hard drive’ phase of life.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="209655" data-text="SD full">
+            <div class="error-code">209655</div>
+            <div class="error-text">
+              SD full.
+              <span>“Your SD card is stuffed. Stop feeding it channels.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="209667" data-text="NAND space insufficient">
+            <div class="error-code">209667</div>
+            <div class="error-text">
+              NAND space insufficient.
+              <span>“There is physically nowhere left to put your data. Delete something.”</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. NAS / SHOP / BILLING (20XXXX, 205XXX, 206XXX, 208XXX, 209XXX) -->
+    <section class="category" data-category="shop">
+      <div class="category-header">
+        <div class="category-title">NAS / Shop / Billing Errors</div>
+        <div class="category-tag">20XXXX, 205XXX, 206XXX, 208XXX, 209XXX</div>
+      </div>
+      <div class="category-body">
+        <div class="category-desc">
+          When the shop, NAS, or billing system decides your money isn’t good enough.
+        </div>
+        <div class="error-list">
+          <div class="error-row" data-code="20102" data-text="You were banned from WFC">
+            <div class="error-code">20102</div>
+            <div class="error-text">
+              Banned from WFC.
+              <span>“The server has officially decided you are ‘not invited.’”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="20110" data-text="Server shutdown">
+            <div class="error-code">20110</div>
+            <div class="error-text">
+              Server shutdown.
+              <span>“The server clocked out and went home. It’s done.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="204017" data-text="Wii Points Card invalid">
+            <div class="error-code">204017</div>
+            <div class="error-text">
+              Wii Points Card invalid.
+              <span>“That card is faker than a free V-Bucks ad.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="205810" data-text="Not enough Wii Points">
+            <div class="error-code">205810</div>
+            <div class="error-text">
+              Not enough Wii Points.
+              <span>“You tried to buy something with emotional support instead of currency.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="205815" data-text="Wii Points Card already used">
+            <div class="error-code">205815</div>
+            <div class="error-text">
+              Card already used.
+              <span>“Someone else already squeezed the points out of that card.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="206603" data-text="Unable to confirm credit card information">
+            <div class="error-code">206603</div>
+            <div class="error-text">
+              Credit card not confirmed.
+              <span>“The payment processor looked at your card and said ‘nah.’”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="208009" data-text="Technical difficulties">
+            <div class="error-code">208009</div>
+            <div class="error-text">
+              Technical difficulties.
+              <span>“Corporate speak for ‘we broke something and don’t want to explain.’”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="209531" data-text="Web page not found">
+            <div class="error-code">209531</div>
+            <div class="error-text">
+              Web page not found.
+              <span>“The shop tried to load a page that never existed.”</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. STRING CHECK / UPDATE (32XXX, 33XXX) -->
+    <section class="category" data-category="update">
+      <div class="category-header">
+        <div class="category-title">Update / String Check Errors</div>
+        <div class="category-tag">32XXX, 33XXX</div>
+      </div>
+      <div class="category-body">
+        <div class="category-desc">
+          When updates and profanity filters both decide to ruin your day.
+        </div>
+        <div class="error-list">
+          <div class="error-row" data-code="32001" data-text="Cannot connect to update server">
+            <div class="error-code">32001</div>
+            <div class="error-text">
+              Cannot connect to update server.
+              <span>“The update server saw your firmware version and ran.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="32003" data-text="NAND full during update">
+            <div class="error-code">32003</div>
+            <div class="error-text">
+              NAND full.
+              <span>“You tried to update with zero free space. Bold move.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="33001" data-text="Server failure during string check">
+            <div class="error-code">33001</div>
+            <div class="error-text">
+              String check server failure.
+              <span>“The profanity filter crashed trying to read your message.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="33100" data-text="One or more strings invalid">
+            <div class="error-code">33100</div>
+            <div class="error-text">
+              Invalid string.
+              <span>“You typed something so cursed the filter flagged it instantly.”</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. WC24 INTERNAL / CGI / HTTP (10XXXXX, 110XXX, 11XYYY) -->
+    <section class="category" data-category="wc24">
+      <div class="category-header">
+        <div class="category-title">WiiConnect24 Internal / CGI / HTTP Errors</div>
+        <div class="category-tag">10XXXXX, 110XXX, 11XYYY</div>
+      </div>
+      <div class="category-body">
+        <div class="category-desc">
+          When WiiConnect24’s background magic turns into background screaming.
+        </div>
+        <div class="error-list">
+          <div class="error-row" data-code="100000" data-text="Error code not found">
+            <div class="error-code">100000</div>
+            <div class="error-text">
+              Error code not found.
+              <span>“Nintendo literally wrote ‘we don’t know.’ Same.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="101003" data-text="settings.txt does not exist">
+            <div class="error-code">101003</div>
+            <div class="error-text">
+              settings.txt missing.
+              <span>“Your console misplaced its own identity file. Impressive.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="10X232" data-text="HTTP server error">
+            <div class="error-code">10X232</div>
+            <div class="error-text">
+              HTTP server error.
+              <span>“The WC24 server responded with pure chaos instead of data.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="10X246" data-text="File system data corruption">
+            <div class="error-code">10X246</div>
+            <div class="error-text">
+              File system corruption.
+              <span>“Your Wii’s NAND has entered the ‘do not resuscitate’ phase.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="109038" data-text="NAND non-restorable state">
+            <div class="error-code">109038</div>
+            <div class="error-text">
+              NAND non-restorable.
+              <span>“The system memory is cooked. Time to start saying your goodbyes.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="1102Y0" data-text="Authentication error">
+            <div class="error-code">1102Y0</div>
+            <div class="error-text">
+              Authentication error.
+              <span>“The WC24 server looked at your credentials and laughed.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="11XYYY" data-text="WC24 HTTP error">
+            <div class="error-code">11XYYY</div>
+            <div class="error-text">
+              WC24 HTTP error.
+              <span>“The background task tried to talk to a server and got roasted instead.”</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12. GENERIC GAMESPY PATTERNS (XX01X, XX02X, XXXX1, XXXX2, etc.) -->
+    <section class="category" data-category="patterns">
+      <div class="category-header">
+        <div class="category-title">Generic GameSpy / Library Pattern Codes</div>
+        <div class="category-tag">XX01X, XX02X, XX8XX, XXXX1…</div>
+      </div>
+      <div class="category-body">
+        <div class="category-desc">
+          Pattern-based errors that mean “something broke” in increasingly creative ways.
+        </div>
+        <div class="error-list">
+          <div class="error-row" data-code="XX01X" data-text="Network failure">
+            <div class="error-code">XX01X</div>
+            <div class="error-text">
+              Network failure.
+              <span>“Somewhere between you and the server, reality fell apart.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="XX07X" data-text="Timeout">
+            <div class="error-code">XX07X</div>
+            <div class="error-text">
+              Timeout.
+              <span>“The server waited, got bored, and left.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="XX42X" data-text="NATNEG failed">
+            <div class="error-code">XX42X</div>
+            <div class="error-text">
+              NATNEG failed.
+              <span>“Your routers refused to meet in the middle.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="XX86X" data-text="Bad response from GHTTP server">
+            <div class="error-code">XX86X</div>
+            <div class="error-text">
+              Bad GHTTP response.
+              <span>“The HTTP server replied with something that shouldn’t exist.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="XXXX1" data-text="Memory allocation failure">
+            <div class="error-code">XXXX1</div>
+            <div class="error-text">
+              Memory allocation failure.
+              <span>“The library asked for memory and got a hard no.”</span>
+            </div>
+          </div>
+          <div class="error-row" data-code="XXXX4" data-text="Library not initialized">
+            <div class="error-code">XXXX4</div>
+            <div class="error-text">
+              Library not initialized.
+              <span>“You tried to use a system that was still asleep.”</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </div>
-
-  <!-- 31000 SERIES -->
-  <div class="error">
-    <div class="code">31020 – Matchmaking Failed</div>
-    <div class="desc">No one joined your room. Even the imaginary players didn’t show up.</div>
-    <div class="hint">Try again, check NAT type, or convince a friend to actually connect.</div>
+  <div class="footer">
+    SpinnyWFC is not responsible for emotional damage caused by reading this page.
   </div>
-
-  <div class="error">
-    <div class="code">31080 – Friend Code Error</div>
-    <div class="desc">The friend code system did what it does best: fail in mysterious ways.</div>
-    <div class="hint">Double‑check the code, region, and whether both sides added each other.</div>
-  </div>
-
-  <!-- 50000 SAKE / LEADERBOARDS -->
-  <div class="error">
-    <div class="code">50000 – SAKE General Failure</div>
-    <div class="desc">The stats/leaderboard server saw your request and immediately regretted its life choices.</div>
-    <div class="hint">Generic SAKE error. Check request format, auth, and server status.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">50020 – SAKE Authentication Failed</div>
-    <div class="desc">Your leaderboard login wasn’t accepted. The server said “who dis?”</div>
-    <div class="hint">Verify profile, auth token, and that the game is using the right account.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">50030 – SAKE Record Not Found</div>
-    <div class="desc">You tried to fetch a record that doesn’t exist. It never lived here.</div>
-    <div class="hint">Check IDs, filters, or whether the data was ever uploaded.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">50040 – SAKE Permission Denied</div>
-    <div class="desc">You asked to touch data you’re not allowed to touch. The server said “nope.”</div>
-    <div class="hint">Check ownership, permissions, and access level.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">50050 – SAKE Upload Failed</div>
-    <div class="desc">Your stats or level tried to upload and tripped on the way to the server.</div>
-    <div class="hint">Check connection stability and payload size/format.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">50060 – SAKE Download Failed</div>
-    <div class="desc">The server tried to send data and then changed its mind mid‑flight.</div>
-    <div class="hint">Check filters, IDs, and whether the content still exists.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">50099 – SAKE Meltdown</div>
-    <div class="desc">The leaderboard system encountered something so cursed it gave up entirely.</div>
-    <div class="hint">Server‑side issue. Check logs, schemas, and recent changes.</div>
-  </div>
-
-  <!-- 52000 SERIES – WIFI / DHCP -->
-  <div class="error">
-    <div class="code">52000 – Unable to Obtain IP Address</div>
-    <div class="desc">Your DS politely asked the router for an IP. The router pretended not to hear.</div>
-    <div class="hint">Check DHCP, Wi‑Fi password, and that the router isn’t sulking.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">52001 – Cannot Connect to Access Point</div>
-    <div class="desc">Your Wi‑Fi saw your DS and said “not today.”</div>
-    <div class="hint">Move closer, re‑enter the key, or check MAC filtering.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">52002 – DHCP Timeout</div>
-    <div class="desc">The router is thinking… and thinking… and then stopped thinking.</div>
-    <div class="hint">Restart router, check DHCP pool, or try manual IP settings.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">52003 – Unable to Connect to Server</div>
-    <div class="desc">Your DS reached out. The server ghosted you.</div>
-    <div class="hint">Check server address, DNS, and whether the service is actually running.</div>
-  </div>
-
-  <!-- 52100 SERIES – DNS / ROUTER -->
-  <div class="error">
-    <div class="code">52100 – DNS Error</div>
-    <div class="desc">Your DNS settings are so wrong the DS got confused and walked away.</div>
-    <div class="hint">Use known‑good DNS (like your router or a public resolver).</div>
-  </div>
-
-  <div class="error">
-    <div class="code">52101 – Cannot Connect to Nintendo WFC</div>
-    <div class="desc">Your network is allergic to online play. It broke out in timeouts.</div>
-    <div class="hint">Check firewall, NAT, and whether you’re tunneling through three VPNs.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">52102 – Router Refused Connection</div>
-    <div class="desc">Your router blocked the DS like it’s guarding state secrets.</div>
-    <div class="hint">Check port blocking, parental controls, and security mode.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">52103 – DNS Response Invalid</div>
-    <div class="desc">Your DNS replied with something so weird the DS questioned reality.</div>
-    <div class="hint">Check custom DNS, hosts overrides, or typos in server names.</div>
-  </div>
-
-  <!-- 60000 SERIES – GPCM -->
-  <div class="error">
-    <div class="code">60000 – GPCM General Failure</div>
-    <div class="desc">The presence/login server saw your request and immediately regretted it.</div>
-    <div class="hint">Check credentials, server URL, and protocol version.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">60010 – GPCM Login Rejected</div>
-    <div class="desc">Your console tried to log in. GPCM said “nope, not you.”</div>
-    <div class="hint">Verify profile, password/token, and account status.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">60020 – GPCM Buddy List Failure</div>
-    <div class="desc">The buddy list system tripped over its own data.</div>
-    <div class="hint">Check friend data, IDs, and server‑side buddy storage.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">60030 – GPCM Keepalive Timeout</div>
-    <div class="desc">The server assumed you vanished into the void.</div>
-    <div class="hint">Connection dropped or idle too long. Check stability and timeouts.</div>
-  </div>
-
-  <!-- 61000 SERIES – NAS / AUTH -->
-  <div class="error">
-    <div class="code">61010 – Cannot Connect to Authentication Server</div>
-    <div class="desc">The login server is busy doing absolutely nothing.</div>
-    <div class="hint">Check NAS URL, DNS, and whether the auth service is running.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">61020 – Profile Mismatch</div>
-    <div class="desc">The server checked your profile and said “who are you again?”</div>
-    <div class="hint">Profile data doesn’t match. Recreate or resync the profile.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">61030 – Invalid Credentials</div>
-    <div class="desc">Your login details were so wrong the server winced.</div>
-    <div class="hint">Check keys, tokens, and any patched credentials.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">61040 – Banned or Blocked</div>
-    <div class="desc">The server remembers you. That’s the problem.</div>
-    <div class="hint">Account or console may be blocked. Check server policy.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">61050 – Region or Title Not Allowed</div>
-    <div class="desc">This game or region isn’t invited to the party.</div>
-    <div class="hint">Check region locks, title IDs, and server configuration.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">61070 – Server Maintenance</div>
-    <div class="desc">The server is on a coffee break and refuses to multitask.</div>
-    <div class="hint">Try again later. Or sooner. Or whenever it feels like working.</div>
-  </div>
-
-  <!-- 70000 SERIES – DLS1 -->
-  <div class="error">
-    <div class="code">70000 – DLS1 General Failure</div>
-    <div class="desc">The download server saw your request and immediately dropped it.</div>
-    <div class="hint">Check URL, content ID, and server status.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">70010 – Content Missing</div>
-    <div class="desc">You tried to download something that doesn’t exist anymore. Or ever.</div>
-    <div class="hint">Verify content IDs and that the file is actually hosted.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">70020 – Hash Mismatch</div>
-    <div class="desc">The file arrived, but the checksum screamed in horror.</div>
-    <div class="hint">Corrupted download or wrong file. Re‑upload or retry.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">70030 – Download Incomplete</div>
-    <div class="desc">The download stopped halfway, like it remembered something urgent.</div>
-    <div class="hint">Check connection stability and timeouts.</div>
-  </div>
-
-  <!-- 84000 SERIES – WII / WFC -->
-  <div class="error">
-    <div class="code">84020 – Connection Failed</div>
-    <div class="desc">Your console tried to handshake. The server left it hanging.</div>
-    <div class="hint">Check ports, NAT, and whether the endpoint is correct.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">84030 – NAT Negotiation Failed</div>
-    <div class="desc">Your network is behind seven firewalls and at least one dragon.</div>
-    <div class="hint">UPnP, port forwarding, or a less cursed router may help.</div>
-  </div>
-
-  <!-- 86000 SERIES – NATNEG / P2P -->
-  <div class="error">
-    <div class="code">86010 – NAT Negotiation Failed</div>
-    <div class="desc">The peers tried to meet in the middle. The middle exploded.</div>
-    <div class="hint">Strict NAT on one or both sides. Check router settings.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">86020 – Peer Unreachable</div>
-    <div class="desc">The other player lives behind a network fortress.</div>
-    <div class="hint">One side may be fully blocked. Try a different network.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">86420 – Peer-to-Peer Connection Failed</div>
-    <div class="desc">The other player’s connection spontaneously combusted. Not your fault. Probably.</div>
-    <div class="hint">Common in Wii/DS P2P. Try again or pick a different host.</div>
-  </div>
-
-  <!-- 98000 SERIES – HTTP / GAMESTATS -->
-  <div class="error">
-    <div class="code">98020 – HTTP Request Failed</div>
-    <div class="desc">Your HTTP request left the console and never came back.</div>
-    <div class="hint">Check URL, SSL (if any), and server availability.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">98030 – Malformed Request</div>
-    <div class="desc">The server looked at your request and said “what is this?”</div>
-    <div class="hint">Headers, body format, or query parameters may be wrong.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">98040 – Invalid Server Response</div>
-    <div class="desc">The server replied with something so cursed the client refused to parse it.</div>
-    <div class="hint">Check response format, encoding, and status codes.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">98050 – Rate Limited</div>
-    <div class="desc">You asked the server for too much, too fast. It’s hiding now.</div>
-    <div class="hint">Slow down requests or add backoff logic.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">98099 – GameStats Meltdown</div>
-    <div class="desc">The stats/HTTP backend encountered something unspeakable and bailed.</div>
-    <div class="hint">Server‑side issue. Check logs and recent deployments.</div>
-  </div>
-
-  <!-- 998000+ SERIES – SPINNYWFC CUSTOM -->
-  <div class="error">
-    <div class="code">998001 – Internal Server Oops</div>
-    <div class="desc">Something broke on our end. We’re pretending it didn’t happen.</div>
-    <div class="hint">Check server logs, exceptions, and anything you “definitely didn’t touch.”</div>
-  </div>
-
-  <div class="error">
-    <div class="code">998002 – Unexpected Response</div>
-    <div class="desc">The server received something so strange it questioned reality.</div>
-    <div class="hint">Client and server may disagree on protocol or payload.</div>
-  </div>
-
-  <div class="error">
-    <div class="code">998003 – Database Unavailable</div>
-    <div class="desc">The database is currently on vacation and did not leave a forwarding address.</div>
-    <div class="hint">Check DB connection, migrations, and whether it’s actually running.</div>
-  </div>
-
 </div>
 
 <script>
-  const searchInput = document.getElementById("searchInput");
-  const errorList = document.getElementById("errorList");
-  const errors = errorList.getElementsByClassName("error");
+  // Simple search filter
+  const searchInput = document.getElementById('search');
+  const rows = Array.from(document.querySelectorAll('.error-row'));
 
-  searchInput.addEventListener("input", function () {
-    const filter = searchInput.value.toLowerCase();
-
-    for (let i = 0; i < errors.length; i++) {
-      const code = errors[i].getElementsByClassName("code")[0].innerText.toLowerCase();
-      const desc = errors[i].getElementsByClassName("desc")[0].innerText.toLowerCase();
-      const hint = errors[i].getElementsByClassName("hint")[0].innerText.toLowerCase();
-
-      if (code.includes(filter) || desc.includes(filter) || hint.includes(filter)) {
-        errors[i].style.display = "";
-      } else {
-        errors[i].style.display = "none";
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.trim().toLowerCase();
+    rows.forEach(row => {
+      if (!q) {
+        row.classList.remove('hidden');
+        return;
       }
-    }
+      const code = (row.dataset.code || '').toLowerCase();
+      const text = (row.dataset.text || '').toLowerCase();
+      if (code.includes(q) || text.includes(q)) {
+        row.classList.remove('hidden');
+      } else {
+        row.classList.add('hidden');
+      }
+    });
   });
-</script>
 
+  // Error of the day (random from all rows)
+  function pickErrorOfDay() {
+    if (!rows.length) return;
+    const r = rows[Math.floor(Math.random() * rows.length)];
+    const code = r.querySelector('.error-code').textContent.trim();
+    const desc = r.querySelector('.error-text span').textContent.trim();
+    const eod = document.getElementById('error-of-day').querySelector('span');
+    eod.textContent = code + ' — ' + desc.replace(/^“|”$/g, '');
+  }
+  pickErrorOfDay();
+</script>
 </body>
 </html>
